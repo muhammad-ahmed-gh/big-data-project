@@ -9,4 +9,4 @@ df = pd.read_csv(file_path, encoding="latin1")
 
 df.to_csv("data_raw.csv", index=False)
 
-os.system("python preprocess.py")
+# os.system("python preprocess.py data_raw.csv")

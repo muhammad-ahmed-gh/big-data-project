@@ -1,10 +1,12 @@
 import os
+import sys
 import pandas as pd
 import nltk
 nltk.download('stopwords')
 from nltk.corpus import stopwords
 
-df = pd.read_csv("data_preprocessed.csv")
+file_path = sys.argv[1]
+df = pd.read_csv(file_path)
 print(df.head())
 
 all_words = ' '.join(df['Description']).split()
@@ -55,4 +57,4 @@ with open("insight1.txt", "w") as f:
 with open("insight2.txt", "w") as f:
     f.write(insight2)
 
-os.system("python visualize.py")
+# os.system("python visualize.py data_preprocessed.csv")

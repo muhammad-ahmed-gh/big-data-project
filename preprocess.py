@@ -1,8 +1,10 @@
 import os
 import re
+import sys
 import pandas as pd
 
-df = pd.read_csv("data_raw.csv")
+file_path = sys.argv[1]
+df = pd.read_csv(file_path)
 
 print(df.head())
 print(df.info())
@@ -72,4 +74,4 @@ print(f"Current dataset size: {df_clean.shape}\n")
 
 df_clean.to_csv("data_preprocessed.csv", index=False)
 
-os.system("python analytics.py data_preprocessed.csv")
+# os.system("python analytics.py data_preprocessed.csv")
