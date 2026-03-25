@@ -4,6 +4,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+print("===============================")
+print("    visualize.py is running    ")
+print("===============================\n\n")
+
 file_path = sys.argv[1]
 df = pd.read_csv(file_path)
 
@@ -39,5 +43,6 @@ axes[3].set_title("Correlation Heatmap")
 plt.tight_layout()
 plt.savefig("summary_plot.png")
 plt.close()
+print("Image saved to the current directory")
 
-# os.system("python cluster.py data_preprocessed.csv")
+os.system("python cluster.py data_preprocessed.csv")

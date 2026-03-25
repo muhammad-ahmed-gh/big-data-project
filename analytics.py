@@ -5,6 +5,11 @@ import nltk
 nltk.download('stopwords')
 from nltk.corpus import stopwords
 
+print("===============================")
+print("    analytics.py is running    ")
+print("===============================")
+print("\n\n")
+
 file_path = sys.argv[1]
 df = pd.read_csv(file_path)
 print(df.head())
@@ -15,13 +20,13 @@ filtered = [word for word in all_words if word not in stop_words]
 
 # most common words
 common_words = pd.Series(filtered).value_counts(ascending=False).index.to_list()
-print(common_words[:50])
+print(f"Most common words: {common_words[:50]}")
 
 # sizes
 sizes = ["small", "big", "medium", "large", "tiny", "huge", "jumbo"]
 sizes_occurrences = [word for word in filtered if word in sizes]
 common_sizes = pd.Series(sizes_occurrences).value_counts(ascending=False)
-print(common_sizes)
+print(f"Most common sizes: {common_sizes}")
 
 #################################################################################
 # after analyzing the description column content, we've reached 2 main insights #
@@ -51,10 +56,14 @@ sizes
 Other less common keywords: medium, tiny, big
 '''
 
+print("\nInsights:")
+print(insight1)
+print(insight2)
+
 with open("insight1.txt", "w") as f:
     f.write(insight1)
 
 with open("insight2.txt", "w") as f:
     f.write(insight2)
 
-# os.system("python visualize.py data_preprocessed.csv")
+os.system("python visualize.py data_preprocessed.csv")

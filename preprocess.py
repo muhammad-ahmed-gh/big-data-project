@@ -3,23 +3,30 @@ import re
 import sys
 import pandas as pd
 
+print("===============================")
+print("  preprocessing.py is running  ")
+print("===============================")
+
 file_path = sys.argv[1]
 df = pd.read_csv(file_path)
 
+print("Some info:")
 print(df.head())
 print(df.info())
 print(df.describe())
+print("\n\n")
 
 
 print("Missing values per column:")
 print(df.isna().sum())
+print("\n\n")
 
 # duplicates
 duplicates = df[df.duplicated()]
 print(duplicates.head())
 print(f"Number of duplicates: {duplicates.shape[0]}")
 df_clean = df.drop_duplicates()
-print(f"Current dataset size: {df_clean.shape[0]}\n")
+print(f"Current dataset size: {df_clean.shape[0]}\n\n\n")
 
 # -ve quantities
 negative_quantities = df_clean[df_clean['Quantity'] <= 0]
@@ -28,7 +35,7 @@ print(f"Number of negative quantities: {negative_quantities.shape[0]}")
 # handling with mean
 quantities_mean = df_clean[df_clean['Quantity'] > 0]['Quantity'].mean()
 df_clean['Quantity'] = df_clean['Quantity'].apply(lambda x: x if x > 0 else quantities_mean)
-print(f"Current number of negative values: {df_clean[df_clean['Quantity'] <= 0].shape[0]}\n")
+print(f"Current number of negative values: {df_clean[df_clean['Quantity'] <= 0].shape[0]}\n\n\n")
 
 # -ve prices
 negative_prices = df_clean[df_clean['UnitPrice'] <= 0]
@@ -37,7 +44,7 @@ print(f"Number of negative prices: {negative_prices.shape[0]}")
 # handling with median
 prices_median = df_clean[df_clean['UnitPrice'] > 0]['UnitPrice'].median()
 df_clean['UnitPrice'] = df_clean['UnitPrice'].apply(lambda x: x if x > 0 else prices_median)
-print(f"Current number of negative values: {df_clean[df_clean['UnitPrice'] <= 0].shape[0]}\n")
+print(f"Current number of negative values: {df_clean[df_clean['UnitPrice'] <= 0].shape[0]}\n\n\n")
 
 # missing customers
 missing_customers = df_clean[df_clean['CustomerID'].isna()]
@@ -45,7 +52,7 @@ print(missing_customers.head())
 print(f"Number of missing customers: {missing_customers.shape[0]}")
 # deleting rows with missing customers
 df_clean = df_clean.dropna(subset=['CustomerID'])
-print(f"Current number of missing customers: {df_clean[df_clean['CustomerID'].isna()].shape[0]}\n")
+print(f"Current number of missing customers: {df_clean[df_clean['CustomerID'].isna()].shape[0]}\n\n\n")
 
 # missing descriptions
 missing_descriptions = df_clean[df_clean['Description'].isna()]
@@ -53,25 +60,31 @@ print(missing_descriptions.head())
 print(f"Number of missing descriptions: {missing_descriptions.shape[0]}")
 # putting a global constant (unknown)
 df_clean['Description'] = df_clean['Description'].fillna("unknown")
-print(f"Current number of missing descriptions: {df_clean[df_clean['Description'].isna()].shape[0]}\n")
+print(f"Current number of missing descriptions: {df_clean[df_clean['Description'].isna()].shape[0]}\n\n\n")
 
 # dimensionality reduction
+print("Removing StockCode column...")
 df_clean = df_clean.drop('StockCode', axis=1)
+print(df_clean.head())
+print("\n\n\n")
 
 # discretization (binning)
+print("Creating Quantity_bin column...")
 bins =   [0, 5, 10, 50, 100, df_clean['Quantity'].max()]
 labels = ['Few', 'Medium', 'Many', 'Numerous', 'Humongous']
 df_clean['Quantity_bin'] = pd.cut(df_clean['Quantity'], bins=bins, labels=labels)
 print(df_clean.head())
+print("\n\n\n")
 
 # text (description) preprocessing
+print("cleaning Description column...")
 df_clean['Description'] = df_clean['Description'].str.lower()
 df_clean['Description'] = df_clean['Description'].apply(lambda x: re.sub(r'[^a-z0-9 ]', '', x))
 df_clean['Description'] = df_clean['Description'].str.strip()
 
 print(df_clean.head())
-print(f"Current dataset size: {df_clean.shape}\n")
+print(f"Current dataset size: {df_clean.shape}\n\n\n")
 
 df_clean.to_csv("data_preprocessed.csv", index=False)
 
-# os.system("python analytics.py data_preprocessed.csv")
+os.system("python analytics.py data_preprocessed.csv")
