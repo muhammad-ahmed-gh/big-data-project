@@ -1,0 +1,9 @@
+-- Insight 1 --
+Most common words: ['set', 'bag', 'red', 'heart', 'retrospot', 'vintage', 'design', 'pink', 'christmas', 'box', 'cake', 'white', 'metal', 'jumbo', 'lunch', '3', 'blue', 'hanging', 'holder', 'sign', 'pack', 'tlight', 'paper', 'small', 'card', 'wooden', '6', 'cases', 'glass', 'tea', 'polkadot', '12', 'decoration', 'spaceboy', 'bottle', 'home', 'hot', 'pantry', 'large', 'tin', 'water', 'regency', 'ceramic', 'doormat', '4', 'paisley', 'dolly', 'ivory', 'cream', 'bunting']
+
+It's is noticed that the most purchased products are
+related to love, Christmas, and decoration (red, heart,
+christmas, decoration, etc.)
+
+Other common words were for house stuff and food (set,
+cake, lunch, home, doormat, cream, etc.)
