@@ -53,14 +53,23 @@ print(f"Number of missing descriptions: {missing_descriptions.shape[0]}")
 df_clean['Description'] = df_clean['Description'].fillna("unknown")
 print(f"Current number of missing descriptions: {df_clean[df_clean['Description'].isna()].shape[0]}\n")
 
-# final dataset size
-print(f"Current dataset size: {df_clean.shape[0]}\n")
+# dimensionality reduction
+df_clean = df_clean.drop('StockCode', axis=1)
+
+# discretization (binning)
+bins =   [0, 5, 10, 50, 100, df_clean['Quantity'].max()]
+labels = ['Few', 'Medium', 'Many', 'Numerous', 'Humongous']
+df_clean['Quantity_bin'] = pd.cut(df_clean['Quantity'], bins=bins, labels=labels)
+print(df_clean.head())
 
 # text (description) preprocessing
 df_clean['Description'] = df_clean['Description'].str.lower()
-df_clean['Description'] = df_clean['Description'].apply(lambda x: re.sub('r/[^a-z0-9 ]/', '', x))
+df_clean['Description'] = df_clean['Description'].apply(lambda x: re.sub(r'[^a-z0-9 ]', '', x))
 df_clean['Description'] = df_clean['Description'].str.strip()
+
+print(df_clean.head())
+print(f"Current dataset size: {df_clean.shape}\n")
 
 df_clean.to_csv("data_preprocessed.csv", index=False)
 
-# os.system("python analytics.py data_preprocessed.csv")
+os.system("python analytics.py data_preprocessed.csv")
